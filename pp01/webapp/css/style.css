@@ -1,0 +1,157 @@
+/* 워크센터 카드 */
+/* 카드 컨테이너(HBox) — 폭 측정 기준 */
+.wcHBox {
+  container-type: inline-size;
+}
+
+.wcCard {
+  flex: 1 1 0; /* 5개를 한 줄에 균등 분배 (스크롤 없이 화면에 꽉) */
+  min-width: 0;
+  max-width: 22rem;
+  margin: 0.3rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.wcCard .sapMPanelHdr {
+  display: none;
+}
+
+.wcCard .sapMPanelContent {
+  /* 좌우 여백을 줘서 인디케이터/텍스트가 카드 폭을 충분히 사용하게 */
+  padding: 0.7rem 1.2rem !important;
+  border: none !important;
+}
+
+/* 카드 영역이 폰 폭(<=600px)일 때만 카드 내용 비례 축소 → 5개 한 줄에 작게 */
+@container (max-width: 600px) {
+  .wcCard .sapMTitle {
+    font-size: 0.5rem;
+  }
+  .wcCard .sapMTitleStyleH1 {
+    font-size: 0.85rem;
+  }
+  .wcCard .sapMText {
+    font-size: 0.38rem;
+  }
+  .wcCard .sapMObjStatusText {
+    font-size: 0.38rem;
+  }
+  .wcCard .sapMPanelContent {
+    padding: 0.15rem 0.2rem !important;
+  }
+  /* 인디케이터도 얇게 */
+  .wcCard .sapMPI {
+    height: 0.5rem;
+  }
+}
+
+/* 캘린더 패널 — 폰 폭일 때 비례 축소 (세로 길이 줄이고 필터 드롭다운 안 잘리게) */
+[id$="calendarPanel"] {
+  container-type: inline-size;
+}
+@container (max-width: 600px) {
+  [id$="calendarPanel"] .sapMPanelContent {
+    zoom: 0.7;
+  }
+}
+
+/* 페이지 상단 타이틀 크게 (f:Title H2 수준) */
+[id$="page-title"] {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+
+/* 한글 글자 단위 줄바꿈 방지 → 단어 단위로 (좁은 칸에서 세로로 깨지는 것 방지) */
+.sapMText,
+.sapMLabel,
+.sapMTitle,
+.sapMObjectIdentifierTitle,
+.sapMObjectIdentifierText,
+.sapMObjectNumber,
+.sapMObjStatusText {
+  word-break: keep-all;
+}
+
+/* 캘린더 칩 텍스트: 줄바꿈 없이 말줄임 */
+.myCalendar .sapMSinglePCAppText,
+.myCalendar .sapMSinglePCAppTitle,
+.myCalendar .sapUiCalendarAppTitle,
+.myCalendar .sapUiCalendarAppText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== 상세 다이얼로그 상단 KPI 카드 (계획/생산/수리/긴급) ===== */
+/* 래퍼: 좌우 여백 + 스크롤 시 항상 상단 고정 */
+.kpiStickyWrap {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #fff;
+  /* 좌우 마진 한 칸 이상 + 상하 여백 */
+  padding: 0.5rem 1.5rem 0.75rem 1.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.kpiCardRow {
+  gap: 0.5rem;
+}
+/* 워크센터 헤더 '총' ↔ 'N건' 사이 간격 */
+.kpiTotalLabel {
+  margin-right: 0.5rem;
+}
+/* '총 N건' 우측 여백 (오른쪽 끝에 붙지 않게) */
+/* Toolbar 마지막 항목 margin 초기화를 덮어쓰기 위해 !important 필요 */
+.kpiTotalLbl,
+.kpiTotalLbl.sapMText {
+  margin-right: 2rem !important;
+}
+.kpiCard {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-left: 0.25rem solid #ccc;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.kpiCard-label {
+  color: #6a6d70;
+  font-size: 0.875rem;
+}
+.kpiCard .kpiCard-num {
+  font-size: 1.75rem !important;
+  font-weight: bold;
+  line-height: 1.1;
+  margin: 0.1rem 0;
+}
+.kpiCard-unit {
+  color: #6a6d70;
+  font-size: 0.75rem;
+}
+.kpiCard--plan {
+  border-left-color: #0a6ed1; /* 계획 - 파랑 */
+}
+.kpiCard--prod {
+  border-left-color: #107e3e; /* 생산 - 초록 */
+}
+.kpiCard--repair {
+  border-left-color: #e9730c; /* 수리 - 주황 */
+}
+.kpiCard--urgent {
+  border-left-color: #bb0000; /* 긴급 - 빨강 */
+}
+
+/* ===== 모바일(폰) 반응형 ===== */
+@media (max-width: 599px) {
+  /* 검색창 고정폭 해제 */
+  #productionSearch {
+    width: 100% !important;
+  }
+}

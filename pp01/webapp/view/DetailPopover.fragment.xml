@@ -1,0 +1,283 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Dialog
+        title="{view>/selectedGroup/date} 워크센터 부하"
+        contentWidth="1100px"
+        contentHeight="600px"
+        draggable="true"
+        resizable="true"
+        stretch="{device>/system/phone}"
+    >
+        <content>
+            <!-- 오더 타입별 통계 (KPI 카드) — 스크롤 시 상단 고정(pin) -->
+            <VBox
+                renderType="Bare"
+                width="100%"
+                class="kpiStickyWrap"
+            >
+                <HBox
+                    renderType="Bare"
+                    width="100%"
+                    class="kpiCardRow"
+                >
+                <VBox class="kpiCard kpiCard--plan">
+                    <Text
+                        text="계획"
+                        class="kpiCard-label"
+                    />
+                    <Title
+                        text="{view>/selectedGroup/orderStats/plCnt}"
+                        level="H2"
+                        class="kpiCard-num"
+                    />
+                    <Text
+                        text="건"
+                        class="kpiCard-unit"
+                    />
+                </VBox>
+
+                <VBox class="kpiCard kpiCard--prod">
+                    <Text
+                        text="생산"
+                        class="kpiCard-label"
+                    />
+                    <Title
+                        text="{view>/selectedGroup/orderStats/msCnt}"
+                        level="H2"
+                        class="kpiCard-num"
+                    />
+                    <Text
+                        text="건"
+                        class="kpiCard-unit"
+                    />
+                </VBox>
+
+                <VBox class="kpiCard kpiCard--repair">
+                    <Text
+                        text="수리"
+                        class="kpiCard-label"
+                    />
+                    <Title
+                        text="{view>/selectedGroup/orderStats/rpCnt}"
+                        level="H2"
+                        class="kpiCard-num"
+                    />
+                    <Text
+                        text="건"
+                        class="kpiCard-unit"
+                    />
+                </VBox>
+
+                <VBox class="kpiCard kpiCard--urgent">
+                    <Text
+                        text="긴급"
+                        class="kpiCard-label"
+                    />
+                    <Title
+                        text="{view>/selectedGroup/orderStats/urCnt}"
+                        level="H2"
+                        class="kpiCard-num"
+                    />
+                    <Text
+                        text="건"
+                        class="kpiCard-unit"
+                    />
+                </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- 워크센터별 토글 리스트 -->
+            <List
+                items="{view>/selectedGroup/workCenters}"
+                showSeparators="None"
+            >
+                <CustomListItem>
+                    <Panel
+                        expandable="true"
+                        expanded="{view>expanded}"
+                        class="sapUiTinyMarginBottom"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title
+                                    text="{view>arbpl} · {view>ktext}"
+                                    level="H4"
+                                />
+                                <ToolbarSpacer />
+                                <ObjectStatus
+                                    text="계획"
+                                    state="Information"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <ObjectStatus
+                                    text="{view>schdCount}건"
+                                    state="None"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <ObjectStatus
+                                    text="진행"
+                                    state="Warning"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <ObjectStatus
+                                    text="{view>runCount}건"
+                                    state="None"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <ObjectStatus
+                                    text="완료"
+                                    state="Success"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <ObjectStatus
+                                    text="{view>doneCount}건"
+                                    state="None"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <Text
+                                    text="총"
+                                    class="kpiTotalLabel"
+                                />
+                                <Text
+                                    text="{view>count}건"
+                                    class="kpiTotalLbl"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <Table
+                                items="{view>operations}"
+                                popinLayout="Block"
+                            >
+                                <columns>
+                                    <Column width="110px">
+                                        <header>
+                                            <Text text="오더번호" />
+                                        </header>
+                                    </Column>
+                                    <Column
+                                        width="60px"
+                                        minScreenWidth="Tablet"
+                                        demandPopin="true"
+                                    >
+                                        <header>
+                                            <Text text="공정" />
+                                        </header>
+                                    </Column>
+                                    <Column
+                                        width="140px"
+                                        minScreenWidth="Tablet"
+                                        demandPopin="true"
+                                    >
+                                        <header>
+                                            <Text text="공정명" />
+                                        </header>
+                                    </Column>
+                                    <Column
+                                        width="70px"
+                                        hAlign="Center"
+                                        minScreenWidth="Tablet"
+                                        demandPopin="true"
+                                    >
+                                        <header>
+                                            <Text text="유형" />
+                                        </header>
+                                    </Column>
+                                    <Column>
+                                        <header>
+                                            <Text text="자재" />
+                                        </header>
+                                    </Column>
+                                    <Column
+                                        width="120px"
+                                        hAlign="End"
+                                    >
+                                        <header>
+                                            <Text text="수량" />
+                                        </header>
+                                    </Column>
+                                    <Column
+                                        width="80px"
+                                        hAlign="Center"
+                                    >
+                                        <header>
+                                            <Text text="상태" />
+                                        </header>
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem
+                                        type="Active"
+                                        press="onOrderPress"
+                                        highlight="{= ${view>_earlyDone} ? 'Information' : 'None' }"
+                                    >
+                                        <cells>
+                                            <Text text="{view>Aufnr}" />
+                                            <Text text="{view>Vornr}" />
+                                            <Text text="{view>Ltxa1}" />
+                                            <ObjectStatus
+                                                text="{= ${view>Autyp} === 'MS' ? '생산' :
+                                                       ${view>Autyp} === 'UR' ? '긴급' :
+                                                       ${view>Autyp} === 'RP' ? '수리' :
+                                                       ${view>Autyp} === 'PL' ? '계획' : ${view>Autyp}
+                                                }"
+                                                state="{= ${view>Autyp} === 'MS' ? 'Success' :
+                                                         ${view>Autyp} === 'UR' ? 'Error' :
+                                                         ${view>Autyp} === 'RP' ? 'Warning' :
+                                                         ${view>Autyp} === 'PL' ? 'Information' : 'None'
+                                                }"
+                                                inverted="true"
+                                            />
+                                            <ObjectIdentifier
+                                                id="popMatId"
+                                                title="{view>Matnr}"
+                                                text="{view>Maktx}"
+                                            />
+                                            <VBox alignItems="End">
+                                                <ObjectNumber
+                                                    number="{view>Day_yield} / {view>Gamng}"
+                                                    unit="{view>Gmein}"
+                                                    emphasized="true"
+                                                />
+                                                <Text
+                                                    text="총 수량 {view>order_qty} {view>Gmein}"
+                                                    class="sapUiTinyText"
+                                                />
+                                            </VBox>
+                                            <ObjectStatus
+                                                text="{= ${view>_earlyDone} ? '조기 마감' :
+                                                       ${view>Statu} === 'SCHD' ? '계획' :
+                                                       ${view>Statu} === 'RUN' ? '진행중' :
+                                                       ${view>Statu} === 'DONE' ? '완료' : ${view>Statu}
+                                                }"
+                                                state="{= ${view>_earlyDone} ? 'Information' :
+                                                         ${view>Statu} === 'DONE' ? 'Success' :
+                                                         ${view>Statu} === 'RUN' ? 'Warning' :
+                                                         ${view>Statu} === 'SCHD' ? 'None' : 'None'
+                                                }"
+                                                tooltip="{= ${view>_earlyDone} ? '계획보다 일찍 마감된 건입니다' : '' }"
+                                            />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </content>
+                    </Panel>
+                </CustomListItem>
+            </List>
+        </content>
+
+        <buttons>
+            <Button
+                text="닫기"
+                press="onCloseDetailPopover"
+                type="Emphasized"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

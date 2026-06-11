@@ -1,0 +1,176 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="orderSearchDialog"
+        title="생산오더 조회"
+        contentWidth="700px"
+        contentHeight="600px"
+        draggable="true"
+        resizable="true"
+        stretch="{device>/system/phone}"
+    >
+        <content>
+            <VBox
+                id="osForm"
+                class="sapUiSmallMargin"
+            >
+                <!-- 조회 조건 -->
+                <Label
+                    id="osLblAufnr"
+                    text="생산오더번호"
+                />
+                <Input
+                    id="osInpAufnr"
+                    value="{osearch>/aufnr}"
+                    placeholder="오더번호"
+                    width="100%"
+                    submit="onOrderSearchGo"
+                    showValueHelp="true"
+                    valueHelpRequest="onSearchAufnrVH"
+                />
+                <Label
+                    id="osLblMatnr"
+                    text="자재코드"
+                    class="sapUiSmallMarginTop"
+                />
+                <Input
+                    id="osInpMatnr"
+                    value="{osearch>/matnr}"
+                    placeholder="자재코드"
+                    width="100%"
+                    submit="onOrderSearchGo"
+                    showValueHelp="true"
+                    valueHelpRequest="onSearchMatnrVH"
+                />
+                <Label
+                    id="osLblVbeln"
+                    text="요청원천번호"
+                    class="sapUiSmallMarginTop"
+                />
+                <Input
+                    id="osInpVbeln"
+                    value="{osearch>/vbeln}"
+                    placeholder="요청원천번호"
+                    width="100%"
+                    submit="onOrderSearchGo"
+                    showValueHelp="true"
+                    valueHelpRequest="onSearchVbelnVH"
+                />
+                <Label
+                    id="osLblStatu"
+                    text="생산상태"
+                    class="sapUiSmallMarginTop"
+                />
+                <Select
+                    id="osSelStatu"
+                    selectedKey="{osearch>/statu}"
+                    width="100%"
+                >
+                    <core:Item id="osStatAll" key="" text="전체" />
+                    <core:Item id="osStatSchd" key="SCHD" text="계획" />
+                    <core:Item id="osStatRel" key="REL" text="릴리즈" />
+                    <core:Item id="osStatRun" key="RUN" text="진행중" />
+                    <core:Item id="osStatDone" key="DONE" text="완료" />
+                </Select>
+
+                <Button
+                    id="osBtnGo"
+                    text="조회"
+                    type="Emphasized"
+                    icon="sap-icon://search"
+                    press="onOrderSearchGo"
+                    class="sapUiSmallMarginTop"
+                />
+
+                <!-- 조회 결과 -->
+                <Table
+                    id="orderSearchTable"
+                    items="{osearch>/results}"
+                    growing="true"
+                    growingThreshold="20"
+                    class="sapUiSmallMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar id="osResToolbar">
+                            <Title
+                                id="osResTitle"
+                                text="{= '조회 결과 ' + ${osearch>/results}.length + '건' }"
+                                level="H5"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="osColAufnr">
+                            <header><Text id="osHAufnr" text="오더번호" /></header>
+                        </Column>
+                        <Column id="osColMat">
+                            <header><Text id="osHMat" text="자재" /></header>
+                        </Column>
+                        <Column
+                            id="osColVbeln"
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <header><Text id="osHVbeln" text="요청원천" /></header>
+                        </Column>
+                        <Column
+                            id="osColQty"
+                            hAlign="End"
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <header><Text id="osHQty" text="수량" /></header>
+                        </Column>
+                        <Column
+                            id="osColStatu"
+                            hAlign="Center"
+                            width="6rem"
+                        >
+                            <header><Text id="osHStatu" text="상태" /></header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem
+                            id="osRow"
+                            type="Active"
+                            press="onOrderSearchRowPress"
+                        >
+                            <cells>
+                                <ObjectIdentifier
+                                    id="osCellAufnr"
+                                    title="{osearch>aufnr}"
+                                />
+                                <ObjectIdentifier
+                                    id="osCellMatBox"
+                                    title="{osearch>matnr}"
+                                    text="{osearch>maktx}"
+                                />
+                                <Text id="osCellVbeln" text="{osearch>vbeln}" />
+                                <ObjectNumber
+                                    id="osCellQty"
+                                    number="{osearch>psmng}"
+                                    unit="{osearch>gmein}"
+                                />
+                                <ObjectStatus
+                                    id="osCellStatu"
+                                    text="{osearch>statu}"
+                                    state="{= ${osearch>statu} === 'DONE' ? 'Success' : ${osearch>statu} === 'RUN' ? 'Warning' : ${osearch>statu} === 'REL' ? 'Success' : 'Information' }"
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+
+        <buttons>
+            <Button
+                id="osBtnClose"
+                text="닫기"
+                press="onOrderSearchClose"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

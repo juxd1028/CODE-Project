@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: code.t4.ui5.pp01
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://61.97.134.36:8000
+          client: '100'
+        app:
+          name: ZD4PP01
+          description: '[PP] 생산 진행 모니터링'
+          package: ZPD4PP
+          transport: EFXK902380
+        exclude:
+          - /test/

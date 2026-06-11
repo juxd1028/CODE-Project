@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        id="sourceValueHelpDialog"
+        title="요청 원천 번호 / 아이템 선택"
+        search="onSourceVHSearch"
+        confirm="onSourceVHConfirm"
+        cancel="onSourceVHCancel"
+        growing="true"
+        growingThreshold="30"
+        items="{vh>/items}"
+    >
+        <StandardListItem
+            id="sourceVHItem"
+            title="{vh>vbeln} / {vh>posnr}"
+            description="{vh>source_text} · {vh>matnr} {vh>maktx}"
+            info="{vh>status_text}"
+            infoState="{= ${vh>status_text} === '생산 진행' ? 'Warning' : ${vh>status_text} === '생산 완료' ? 'Success' : 'Information' }"
+        />
+    </SelectDialog>
+</core:FragmentDefinition>

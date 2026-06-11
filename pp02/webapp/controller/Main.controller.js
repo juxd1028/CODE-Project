@@ -16,8 +16,6 @@
           materialCode: "",
           dateFrom: null,
           dateTo: null,
-          status: "ALL",
-          createdBy: "",
         });
 
         var oResultModel = new JSONModel({
@@ -82,18 +80,6 @@
       _flattenMaterials(aResults, oSearch) {
         return aResults
           .filter(function (oEntry) {
-            if (oSearch.status && oSearch.status !== "ALL") {
-              var sStatus = oEntry.Status || "";
-              if (sStatus !== oSearch.status) {
-                return false;
-              }
-            }
-            if (oSearch.createdBy) {
-              var sCreatedBy = oEntry.Cuserid || "";
-              if (sCreatedBy.indexOf(oSearch.createdBy) === -1) {
-                return false;
-              }
-            }
             if (oSearch.dateFrom && oSearch.dateTo) {
               var sCreatedDate = oEntry.CreatedAt || oEntry.CreatedDate || null;
               if (sCreatedDate) {
@@ -111,6 +97,10 @@
           .map(function (oEntry) {
             var fRequiredQuantity = parseFloat(oEntry.Bemng) || 0;
             var fInventory = parseFloat(oEntry.Labst) || 0;
+            var sUnit = oEntry.Meins || oEntry.Gmein || "";
+            var sRawInventory = oEntry.Labst != null ? oEntry.Labst : "";
+            var sInventoryText =
+              sRawInventory + (sUnit ? " " + sUnit : "");
             var bShortage = fInventory < fRequiredQuantity;
             var sProcessNo = oEntry.Vornr || "";
             var sProcessName = oEntry.ltxa1 || "공정명 없음";
@@ -130,9 +120,9 @@
               Lgobe: oEntry.Lgobe || oEntry.Lgort || "",
               Bemng: fRequiredQuantity,
               Labst: fInventory,
+              LabstText: sInventoryText,
               Status: oEntry.Status || "",
-              Cuserid: oEntry.Cuserid || "",
-              statusText: bShortage ? "부족" : "완료",
+              statusText: oEntry.Status || "",
               statusState: bShortage ? "Error" : "Success",
             };
           });

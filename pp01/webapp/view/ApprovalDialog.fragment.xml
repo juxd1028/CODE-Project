@@ -1,0 +1,167 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="approvalDialog"
+        title="오더 생성"
+        contentWidth="460px"
+        stretch="{device>/system/phone}"
+    >
+        <content>
+            <VBox
+                id="approvalForm"
+                class="sapUiSmallMargin"
+            >
+                <!-- 오더 종류 -->
+                <Label
+                    id="lblAutyp"
+                    text="오더 종류"
+                    required="true"
+                />
+                <Select
+                    id="selAutyp"
+                    selectedKey="{approval>/autyp}"
+                    change="onApprovalTypeChange"
+                    width="100%"
+                >
+                    <core:Item
+                        id="itemAutypMs"
+                        key="MS"
+                        text="생산"
+                    />
+                    <core:Item
+                        id="itemAutypUr"
+                        key="UR"
+                        text="긴급"
+                    />
+                    <core:Item
+                        id="itemAutypRp"
+                        key="RP"
+                        text="수리"
+                    />
+                </Select>
+
+                <!-- 자재 코드 -->
+                <Label
+                    id="lblMatnr"
+                    text="자재 코드"
+                    required="true"
+                    class="sapUiSmallMarginTop"
+                />
+                <ComboBox
+                    id="cbMatnr"
+                    selectedKey="{approval>/matnr}"
+                    items="{approval>/materialList}"
+                    selectionChange="onApprovalMaterialChange"
+                    width="100%"
+                    placeholder="자재를 선택하세요"
+                >
+                    <core:Item
+                        id="itemMatnr"
+                        key="{approval>matnr}"
+                        text="{approval>matnr} - {approval>maktx}"
+                    />
+                </ComboBox>
+
+                <!-- 자재명 (자동 표시, DB 미저장) -->
+                <Label
+                    id="lblMaktx"
+                    text="자재명"
+                    class="sapUiSmallMarginTop"
+                />
+                <Text
+                    id="txtMaktx"
+                    text="{= ${approval>/maktx} || '-' }"
+                />
+
+                <!-- 요청 원천 번호 -->
+                <Label
+                    id="lblVbeln"
+                    text="요청 원천 번호"
+                    class="sapUiSmallMarginTop"
+                />
+                <Input
+                    id="inpVbeln"
+                    value="{approval>/vbeln}"
+                    maxLength="10"
+                    width="100%"
+                    placeholder="요청 원천 번호 (선택)"
+                    showValueHelp="true"
+                    valueHelpRequest="onVbelnValueHelp"
+                />
+
+                <!-- 아이템 번호 -->
+                <Label
+                    id="lblPosnr"
+                    text="아이템 번호"
+                    class="sapUiSmallMarginTop"
+                />
+                <Input
+                    id="inpPosnr"
+                    value="{approval>/posnr}"
+                    maxLength="4"
+                    width="100%"
+                    placeholder="아이템 번호 (선택)"
+                    showValueHelp="true"
+                    valueHelpRequest="onPosnrValueHelp"
+                />
+
+                <!-- 생산 계획 기간 -->
+                <Label
+                    id="lblPeriod"
+                    text="생산 계획 기간"
+                    required="true"
+                    class="sapUiSmallMarginTop"
+                />
+                <DateRangeSelection
+                    id="drsPeriod"
+                    dateValue="{approval>/dateFrom}"
+                    secondDateValue="{approval>/dateTo}"
+                    displayFormat="yyyy-MM-dd"
+                    valueFormat="yyyy-MM-dd"
+                    width="100%"
+                    placeholder="시작일 ~ 종료일"
+                />
+
+                <!-- 오더 수량 -->
+                <Label
+                    id="lblMenge"
+                    text="오더 수량"
+                    required="true"
+                    class="sapUiSmallMarginTop"
+                />
+                <HBox
+                    id="hboxMenge"
+                    alignItems="Center"
+                >
+                    <Input
+                        id="inpMenge"
+                        value="{approval>/menge}"
+                        type="Number"
+                        width="9rem"
+                    />
+                    <Text
+                        id="txtGmein"
+                        text="{= ${approval>/gmein} || '' }"
+                        class="sapUiSmallMarginBegin"
+                    />
+                </HBox>
+            </VBox>
+        </content>
+
+        <buttons>
+            <Button
+                id="btnApprovalSubmit"
+                text="생성"
+                type="Emphasized"
+                press="onApprovalSubmit"
+            />
+            <Button
+                id="btnApprovalCancel"
+                text="취소"
+                press="onApprovalCancel"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

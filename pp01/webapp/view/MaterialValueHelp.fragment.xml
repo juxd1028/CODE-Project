@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        id="materialVHDialog"
+        title="자재 선택"
+        search="onMaterialVHSearch"
+        confirm="onMaterialVHConfirm"
+        growing="true"
+        growingThreshold="30"
+        items="{matvh>/items}"
+    >
+        <StandardListItem
+            id="matVHItem"
+            title="{matvh>matnr}"
+            description="{matvh>maktx}"
+        />
+    </SelectDialog>
+</core:FragmentDefinition>

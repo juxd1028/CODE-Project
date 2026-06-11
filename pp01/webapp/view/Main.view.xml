@@ -1,0 +1,357 @@
+<mvc:View
+    controllerName="code.t4.ui5.pp01.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+    displayBlock="true"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+        titleLevel="H2"
+    >
+        <content>
+            <!-- ============================================ -->
+            <!-- 상단 타일: 작업장별 가동현황 한눈에           -->
+            <!-- ============================================ -->
+            <HBox
+                items="{view>/workCenterStats}"
+                wrap="NoWrap"
+                renderType="Bare"
+                justifyContent="SpaceAround"
+                class="sapUiSmallMargin wcHBox"
+            >
+                <Panel
+                    class="wcCard"
+                    backgroundDesign="Solid"
+                >
+                    <VBox
+                        alignItems="Center"
+                        width="100%"
+                    >
+                        <!-- 헤더 -->
+                        <Title
+                            text="{view>arbpl}"
+                            level="H4"
+                        />
+                        <Text
+                            text="{view>ktext}"
+                            class="sapUiTinyText sapUiTinyMarginBottom"
+                        />
+
+                        <!-- 큰 숫자 -->
+                        <HBox
+                            alignItems="Baseline"
+                            class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                        >
+                            <Title
+                                text="{view>today_qty}"
+                                level="H1"
+                                titleStyle="H1"
+                            />
+                            <Text
+                                text=" / {view>capac}"
+                                class="sapUiSmallMarginBegin"
+                            />
+                        </HBox>
+
+                        <!-- footer 텍스트 -->
+                        <Text
+                            text="계획 {view>schd} · 진행 {view>run}"
+                            class="sapUiTinyText sapUiSmallMarginBottom"
+                        />
+
+                        <!-- ProgressIndicator -->
+                        <ProgressIndicator
+                            percentValue="{view>loadPct}"
+                            displayValue="{view>loadPct}%"
+                            showValue="true"
+                            state="{= ${view>loadPct} > 100 ? 'Error' :
+                         ${view>loadPct} >= 80 ? 'Critical' :
+                         ${view>loadPct} > 0 ? 'Information' : 'None' }"
+                            width="100%"
+                        >
+                            <layoutData>
+                                <FlexItemData
+                                    id="wcLoadIndicatorLayout"
+                                    alignSelf="Stretch"
+                                />
+                            </layoutData>
+                        </ProgressIndicator>
+                    </VBox>
+                </Panel>
+            </HBox>
+
+            <!-- ============================================ -->
+            <!-- 공정 일정 캘린더 (SinglePlanningCalendar)     -->
+            <!-- ============================================ -->
+            <Panel
+                id="calendarPanel"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="calendarHeaderToolbar">
+                        <Title
+                            id="calendarTitle"
+                            text="작업장별 공정 일정"
+                            level="H4"
+                        />
+                        <ToolbarSpacer id="calendarHeaderSpacer" />
+                        <Button
+                            id="refreshBtn"
+                            tooltip="새로고침"
+                            icon="sap-icon://refresh"
+                            press="onRefresh"
+                        />
+                        <Button
+                            id="orderSearchOpenBtn"
+                            text="조회"
+                            icon="sap-icon://search"
+                            press="onOpenOrderSearch"
+                        />
+                        <Button
+                            id="approvalOpenBtn"
+                            text="오더 생성"
+                            type="Emphasized"
+                            icon="sap-icon://add"
+                            press="onOpenApprovalDialog"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <!-- 필터바: 작업장 / 상태 콤보박스 -->
+                    <Toolbar
+                        id="filterToolbar"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <Label
+                            text="작업장:"
+                            labelFor="arbplSelect"
+                        />
+                        <Select
+                            id="arbplSelect"
+                            selectedKey="{view>/selectedArbpl}"
+                            change="onFilterChange"
+                            items="{view>/workCenterList}"
+                        >
+                            <!-- '전체' 항목은 arbpl='' 이라 ktext 만 표시되게 분기 -->
+                            <core:Item
+                                key="{view>arbpl}"
+                                text="{= ${view>arbpl} === '' ? ${view>ktext} : ${view>arbpl} + ' - ' + ${view>ktext} }"
+                            />
+                        </Select>
+
+                        <ToolbarSpacer />
+
+                        <Label text="상태:" />
+                        <Select
+                            id="statuSelect"
+                            selectedKey="{view>/selectedStatu}"
+                            change="onFilterChange"
+                        >
+                            <core:Item
+                                key="ALL"
+                                text="전체"
+                            />
+                            <core:Item
+                                key="SCHD"
+                                text="계획"
+                            />
+                            <core:Item
+                                key="RUN"
+                                text="진행중"
+                            />
+                            <core:Item
+                                key="DONE"
+                                text="완료"
+                            />
+                        </Select>
+                    </Toolbar>
+
+                    <!-- 월간 캘린더 본체 -->
+                    <SinglePlanningCalendar
+                        id="opCalendar"
+                        class="myCalendar"
+                        startDate="{view>/startDate}"
+                        appointments="{view>/filteredOperations}"
+                        appointmentSelect="onAppointmentPress"
+                        startDateChange="onCalendarDateChange"
+                    >
+                        <views>
+                            <SinglePlanningCalendarMonthView
+                                key="MonthView"
+                                title="Month"
+                            />
+                        </views>
+
+                        <appointments>
+                            <unified:CalendarAppointment
+                                title="{view>title}"
+                                text="{view>text}"
+                                tooltip="{view>tooltip}"
+                                startDate="{view>startDate}"
+                                endDate="{view>endDate}"
+                                type="{view>type}"
+                                color="{view>color}"
+                            />
+                        </appointments>
+                    </SinglePlanningCalendar>
+                </content>
+            </Panel>
+
+            <!-- ============================================ -->
+            <!-- 현재 생산 중인 오더 리스트 (RUN)              -->
+            <!-- ============================================ -->
+            <Panel
+                id="productionListPanel"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <content>
+                    <List
+                        id="productionTable"
+                        items="{view>/productionList}"
+                        growing="true"
+                        growingThreshold="20"
+                        growingScrollToLoad="false"
+                        sticky="HeaderToolbar"
+                    >
+                        <headerToolbar>
+                            <OverflowToolbar id="productionToolbar">
+                                <Title
+                                    id="productionTitle"
+                                    text="현재 생산 중인 오더"
+                                    level="H4"
+                                />
+                                <ObjectStatus
+                                    id="productionCount"
+                                    text="{= ${view>/productionList}.length + '건' }"
+                                    state="Warning"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                                <ToolbarSpacer id="productionToolbarSpacer" />
+                                <SearchField
+                                    id="productionSearch"
+                                    width="18rem"
+                                    placeholder="오더번호 / 자재 / 작업장 검색"
+                                    search="onProductionSearch"
+                                    liveChange="onProductionSearch"
+                                />
+                            </OverflowToolbar>
+                        </headerToolbar>
+
+                        <items>
+                            <CustomListItem
+                                id="productionRow"
+                                type="Active"
+                                press="onOrderPress"
+                            >
+                                <VBox
+                                    id="prodCardBox"
+                                    class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTop sapUiSmallMarginBottom"
+                                >
+                                    <!-- 1행: 오더번호 · 라우팅번호 · 자재 -->
+                                    <HBox id="prodRow1">
+                                        <VBox
+                                            id="prodC1a"
+                                            width="30%"
+                                        >
+                                            <Label
+                                                id="prodL1a"
+                                                text="오더번호"
+                                            />
+                                            <ObjectIdentifier
+                                                id="prodV1a"
+                                                title="{view>Aufnr}"
+                                            />
+                                        </VBox>
+                                        <VBox
+                                            id="prodC1b"
+                                            width="30%"
+                                        >
+                                            <Label
+                                                id="prodL1b"
+                                                text="라우팅번호"
+                                            />
+                                            <Text
+                                                id="prodV1b"
+                                                text="{view>Plnnr}"
+                                            />
+                                        </VBox>
+                                        <VBox
+                                            id="prodC1c"
+                                            width="40%"
+                                        >
+                                            <Label
+                                                id="prodL1c"
+                                                text="자재"
+                                            />
+                                            <ObjectIdentifier
+                                                id="prodV1c"
+                                                title="{view>Matnr}"
+                                                text="{view>Maktx}"
+                                            />
+                                        </VBox>
+                                    </HBox>
+
+                                    <!-- 2행: 수량 · 상태 · 생산시작일 -->
+                                    <HBox
+                                        id="prodRow2"
+                                        class="sapUiSmallMarginTop"
+                                    >
+                                        <VBox
+                                            id="prodC2a"
+                                            width="30%"
+                                        >
+                                            <Label
+                                                id="prodL2a"
+                                                text="수량"
+                                            />
+                                            <ObjectNumber
+                                                id="prodV2a"
+                                                number="{view>Done_qty} / {view>order_qty}"
+                                                unit="{view>Gmein}"
+                                                emphasized="true"
+                                            />
+                                        </VBox>
+                                        <VBox
+                                            id="prodC2b"
+                                            width="30%"
+                                        >
+                                            <Label
+                                                id="prodL2b"
+                                                text="상태"
+                                            />
+                                            <ObjectStatus
+                                                id="prodV2b"
+                                                text="진행중"
+                                                state="Warning"
+                                            />
+                                        </VBox>
+                                        <VBox
+                                            id="prodC2c"
+                                            width="40%"
+                                        >
+                                            <Label
+                                                id="prodL2c"
+                                                text="생산시작일"
+                                            />
+                                            <Text
+                                                id="prodV2c"
+                                                text="{path: 'view>Gstri', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' }}"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                            </CustomListItem>
+                        </items>
+                    </List>
+                </content>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>

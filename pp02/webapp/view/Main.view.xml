@@ -40,38 +40,6 @@
                         displayFormat="yyyy-MM-dd"
                     />
 
-                    <Label text="상태" />
-                    <Select selectedKey="{search>/status}">
-                        <items>
-                            <core:Item
-                                key="ALL"
-                                text="전체"
-                            />
-                            <core:Item
-                                key="CALL"
-                                text="호출"
-                            />
-                            <core:Item
-                                key="EARLY_CLOSE"
-                                text="조기 마감"
-                            />
-                            <core:Item
-                                key="COMPLETE"
-                                text="완료"
-                            />
-                            <core:Item
-                                key="SHORTAGE"
-                                text="부족"
-                            />
-                        </items>
-                    </Select>
-
-                    <Label text="생성자" />
-                    <Input
-                        value="{search>/createdBy}"
-                        placeholder="예: 홍길동"
-                    />
-
                     <Label text="" />
                     <Button
                         text="조회"
@@ -131,13 +99,10 @@
                                                     <Text text="소요량" />
                                                 </Column>
                                                 <Column>
-                                                    <Text text="재고" />
+                                                    <Text text="가용수량" />
                                                 </Column>
                                                 <Column>
                                                     <Text text="상태" />
-                                                </Column>
-                                                <Column>
-                                                    <Text text="생성자" />
                                                 </Column>
                                             </columns>
                                             <items>
@@ -157,26 +122,21 @@
                                                                 text="{result>Maktx}"
                                                             />
                                                         </VBox>
-                                                        <VBox>
-                                                            <Text
-                                                                text="{result>Lgort}"
-                                                            />
-                                                            <Text
-                                                                text="{result>Lgobe}"
-                                                            />
-                                                        </VBox>
+                                                        <Text
+                                                            text="{result>Lgort}"
+                                                        />
+                                                        <Text
+                                                            text="{result>Lgobe}"
+                                                        />
                                                         <Text
                                                             text="{result>Bemng}"
                                                         />
                                                         <Text
-                                                            text="{result>Labst}"
+                                                            text="{= ${result>LabstText} ? ${result>LabstText} : ${result>Labst} }"
                                                         />
                                                         <ObjectStatus
-                                                            text="{result>statusText}"
+                                                            text="{= ${result>statusText} ? ${result>statusText} : ${result>Status} }"
                                                             state="{result>statusState}"
-                                                        />
-                                                        <Text
-                                                            text="{result>Cuserid}"
                                                         />
                                                     </cells>
                                                 </ColumnListItem>

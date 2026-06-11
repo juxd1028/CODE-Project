@@ -1,0 +1,41 @@
+[
+  {
+    "source_type": "S",
+    "vbeln": "0000004711",
+    "posnr": "0010",
+    "source_text": "판매생산",
+    "source_no": "CUST01",
+    "request_date": "2026-06-01T00:00:00",
+    "matnr": "MAT-1000",
+    "maktx": "완성품 A",
+    "menge": "100",
+    "status": "MTO",
+    "status_text": "생산 예정"
+  },
+  {
+    "source_type": "S",
+    "vbeln": "0000004711",
+    "posnr": "0020",
+    "source_text": "판매생산",
+    "source_no": "CUST01",
+    "request_date": "2026-06-01T00:00:00",
+    "matnr": "MAT-2000",
+    "maktx": "완성품 B",
+    "menge": "50",
+    "status": "MTO",
+    "status_text": "생산 예정"
+  },
+  {
+    "source_type": "R",
+    "vbeln": "QM00010023",
+    "posnr": "0001",
+    "source_text": "수리요청",
+    "source_no": "RT-9001",
+    "request_date": "2026-05-28T00:00:00",
+    "matnr": "RP-3000",
+    "maktx": "수리부품 C",
+    "menge": "1",
+    "status": "A",
+    "status_text": "생산 진행"
+  }
+]
