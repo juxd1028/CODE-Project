@@ -1,0 +1,200 @@
+﻿<mvc:View
+    controllerName="code.t4.ui5.pp02.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <VBox
+            fitContainer="true"
+            class="sapUiSmallMargin"
+        >
+            <Panel
+                headerText="조회조건"
+                expandable="false"
+            >
+                <form:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                >
+                    <Label text="생산오더번호" />
+                    <Input
+                        value="{search>/orderNo}"
+                        placeholder="예: PL0000001"
+                    />
+
+                    <Label text="자재코드" />
+                    <Input
+                        value="{search>/materialCode}"
+                        placeholder="예: RM-BOLTS-001"
+                    />
+
+                    <Label text="날짜범위" />
+                    <DateRangeSelection
+                        dateValue="{search>/dateFrom}"
+                        secondDateValue="{search>/dateTo}"
+                        displayFormat="yyyy-MM-dd"
+                    />
+
+                    <Label text="상태" />
+                    <Select selectedKey="{search>/status}">
+                        <items>
+                            <core:Item
+                                key="ALL"
+                                text="전체"
+                            />
+                            <core:Item
+                                key="CALL"
+                                text="호출"
+                            />
+                            <core:Item
+                                key="EARLY_CLOSE"
+                                text="조기 마감"
+                            />
+                            <core:Item
+                                key="COMPLETE"
+                                text="완료"
+                            />
+                            <core:Item
+                                key="SHORTAGE"
+                                text="부족"
+                            />
+                        </items>
+                    </Select>
+
+                    <Label text="생성자" />
+                    <Input
+                        value="{search>/createdBy}"
+                        placeholder="예: 홍길동"
+                    />
+
+                    <Label text="" />
+                    <Button
+                        text="조회"
+                        type="Emphasized"
+                        icon="sap-icon://search"
+                        press=".onSearch"
+                    />
+                </form:SimpleForm>
+            </Panel>
+
+            <Panel
+                headerText="조회 결과"
+                expandable="false"
+                class="sapUiSmallMarginTop"
+            >
+                <VBox>
+                    <ObjectHeader
+                        title="{result>/orderId}"
+                        intro="{result>/summaryText}"
+                        visible="{= ${result>/orderId} !== '' }"
+                    />
+
+                    <VBox>
+                        <List
+                            id="groupedProcessList"
+                            items="{result>/groups}"
+                            mode="None"
+                        >
+                            <items>
+                                <CustomListItem>
+                                    <Panel
+                                        expandable="true"
+                                        expanded="{result>expanded}"
+                                        headerText="{result>groupLabel}"
+                                    >
+                                        <Table
+                                            inset="false"
+                                            items="{result>items}"
+                                        >
+                                            <columns>
+                                                <Column>
+                                                    <Text text="생산오더번호" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="공정명" />
+                                                </Column>
+                                                <Column width="20rem">
+                                                    <Text text="자재코드" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="저장위치" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="저장위치명" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="소요량" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="재고" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="상태" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="생성자" />
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <Text
+                                                            text="{result>Aufnr}"
+                                                        />
+                                                        <Text
+                                                            text="{result>ltxa1}"
+                                                        />
+                                                        <VBox>
+                                                            <Text
+                                                                text="{result>matnr}"
+                                                            />
+                                                            <Text
+                                                                text="{result>Maktx}"
+                                                            />
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Text
+                                                                text="{result>Lgort}"
+                                                            />
+                                                            <Text
+                                                                text="{result>Lgobe}"
+                                                            />
+                                                        </VBox>
+                                                        <Text
+                                                            text="{result>Bemng}"
+                                                        />
+                                                        <Text
+                                                            text="{result>Labst}"
+                                                        />
+                                                        <ObjectStatus
+                                                            text="{result>statusText}"
+                                                            state="{result>statusState}"
+                                                        />
+                                                        <Text
+                                                            text="{result>Cuserid}"
+                                                        />
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </Panel>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </VBox>
+
+                    <Text
+                        text="검색 조건에 맞는 데이터가 없습니다."
+                        visible="{= ${result>/orderId} !== '' &amp;&amp; ${result>/groups}.length === 0 }"
+                        class="sapUiSmallMarginTop"
+                    />
+                </VBox>
+            </Panel>
+        </VBox>
+    </Page>
+</mvc:View>
