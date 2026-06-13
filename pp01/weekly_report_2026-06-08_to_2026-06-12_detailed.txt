@@ -1,0 +1,111 @@
+주간 개발 일지 (상세)
+기간: 2026.06.08 ~ 2026.06.12
+프로젝트 명: SAP ERP 도입 프로젝트
+프로그램명: ZC1MM0001
+모듈: PP
+상태: 구현중 / 테스트 및 보완중
+
+개요
+- 이번 주는 주로 ALV 기반 검사 편집 기능 구현, 상세(OrderDetail) 화면 보강, Value Help(자재/오더/출처) 개선, 로컬 서비스의 데이터 로드 및 에러 처리 보강, 테스트 추가에 집중했습니다.
+
+일자별 상세 작업
+
+2026-06-08 (월)
+- 작업 시간: 4.5h
+- 작업 내용:
+  - ALV 편집 UI 기초 구조 구현 시작: 사용자 입력을 허용하는 편집가능 그리드(또는 테이블) 레이아웃 추가.
+  - `webapp/view/Main.view.xml`과 연동되는 ALV 컨테이너 영역에 편집 버튼과 SAVE/RESET 컨트롤 추가.
+  - 관련 컨트롤러에 초기 핸들러 등록 (`webapp/controller/Main.controller.js`).
+- 변경 파일(예시): `webapp/view/Main.view.xml`, `webapp/controller/Main.controller.js`
+- 비고: 편집 모드 진입/종료 플로우 설계 완료.
+
+2026-06-09 (화)
+- 작업 시간: 5.0h
+- 작업 내용:
+  - ALV의 셀 편집 로직 구현: 수치 입력/자재 코드 입력 처리, 입력 포맷 기본 유효성 검사 추가(숫자 범위, 필수값 체크).
+  - 유효성 실패 시 UI 표시 정책 정의(셀 색상 변경, 경고 아이콘) 및 SAVE 버튼 비활성화 로직 구현.
+  - 저장 동작의 동시성 대응 설계: 저장 요청 중 중복 클릭 방지와 실패 시 롤백 플로우 설계.
+- 변경 파일(예시): `webapp/controller/Main.controller.js`, `webapp/model/models.js`
+- 비고: 유효성 검사 로직에 대한 단위 테스트 케이스 초안 작성.
+
+2026-06-10 (수)
+- 작업 시간: 6.0h
+- 작업 내용:
+  - OrderDetail 화면 개선 작업: EA 단위 필드 추가, 합계 수량 계산 로직 보강 및 화면 바인딩 정리.
+  - 데이터 바인딩 범위를 필요한 필드로 제한하여 렌더 성능 저하 최소화.
+  - 상세화면에서 Null 참조로 인한 렌더링 오류 원인 파악 및 수정(바인딩 데이터 존재 여부 체크 추가).
+- 변경 파일(예시): `webapp/view/OrderDetail.view.xml`, `webapp/controller/OrderDetail.controller.js`
+- 비고: 렌더링 오류 관련 버그 수정으로 화면 표시 안정성 개선.
+
+2026-06-11 (목)
+- 작업 시간: 5.5h
+- 작업 내용:
+  - Value Help(자재/오더/출처) 프래그먼트 개선: 검색 입력에 따른 결과 필터링, 결과 페이징(내부 클라이언트 페이징) 적용, 선택 후 포커스/상태 동기화 보강.
+  - 검색 클리어 동작(검색어 삭제 시 상태 초기화) 안정화.
+  - 선택 항목 다중선택/단건선택 전환 로직 보완.
+- 변경 파일(예시): `webapp/view/MaterialValueHelp.fragment.xml`, `webapp/view/OrderValueHelp.fragment.xml`, 관련 컨트롤러 및 헬퍼 스크립트
+- 비고: UX 측면에서 검색 응답성 및 상태 일관성 향상.
+
+2026-06-12 (금)
+- 작업 시간: 4.0h
+- 작업 내용:
+  - 로컬 서비스(localService/sourceService) 데이터 로드 체인 개선: Promise 체인 정리, 에러 핸들링 추가(네트워크 오류 시 사용자 알림 및 재시도 정책 기본 구현).
+  - 메타데이터 변경에 따른 모델 매핑 업데이트(`webapp/model/models.js` 수정).
+  - 단위/통합 테스트 추가 및 실행: `test/unit/controller/Main.controller.js` 기반 일부 테스트와 간단 OPA 시나리오 실행(네비게이션, 화면 표시 검증).
+- 변경 파일(예시): `localService/sourceService/*`, `webapp/model/models.js`, `test/unit/controller/Main.controller.js`
+- 비고: 테스트 실패 케이스를 한 건 발견, ALV 저장 시 유효성 플래그 초기화 문제로 SAVE 불가 현상 발생 — 이 문제는 즉시 수정 완료.
+
+구현 세부사항
+
+ALV Edit 유효성 및 UI 동작
+- 허용 값 검증:
+  - 수치 필드: 정수/소수 허용범위(예: 최소 0, 최대 논리적 상한) 검사.
+  - 자재 코드: 존재 여부 확인(로컬 캐시 또는 Value Help 조회).
+- UI 반응:
+  - 유효성 실패 셀: 배경 색상 변경(경고 색), 셀 우측에 툴팁/아이콘으로 오류 메시지 표시.
+  - SAVE 버튼: 모든 편집 셀이 유효한 경우에만 활성화.
+  - 저장 중: 전역 로딩 인디케이터 표시, SAVE 버튼 비활성화.
+- 오류 처리:
+  - 서버 검증 오류(다음 단계): 각 행에 대한 서버 에러 메시지를 매핑하여 사용자에게 표시(예: 행#3: "재고 부족").
+
+OrderDetail 계산 및 바인딩
+- EA 단위: 소수점 표기 규칙 적용(정수 단위 또는 소수 3자리 등, i18n 포맷 적용 고려).
+- 합계 수량: 바인딩된 리스트의 변경 이벤트(onChange)에서 실시간 재계산.
+- 성능: 대량 데이터 처리 시 가상 스크롤 또는 페이징 적용 고려.
+
+Value Help 개선
+- 검색 성능: 키워드 인덱스(클라이언트 필터 우선) 적용, 결과를 50건 단위로 페이징.
+- UX: 선택 후 원래 필드로 값 반영 및 포커스 복귀, 다중선택 시 카운트 표시.
+
+테스트 및 문서
+- 단위 테스트:
+  - Main.controller의 입력/저장 핸들러에 대한 기본 유효성 테스트 추가.
+- 통합(OPA) 테스트:
+  - 네비게이션 경로 확인, OrderDetail 표시, Value Help 열기/선택 시나리오 자동화.
+- 문서화:
+  - i18n에 사용자 안내 메시지 키 추가(예: `MSG_SAVE_SUCCESS`, `MSG_SAVE_ERROR`, `MSG_VALIDATION_ERROR`).
+
+버그 및 이슈
+- 발견된 주요 이슈:
+  - ALV 저장 불능: 유효성 플래그 초기화 누락으로 인해 SAVE가 비활성화되던 현상 — 해결 및 리그레션 확인 완료.
+  - 화면 렌더링 오류: OrderDetail의 일부 필드가 null일 때 바인딩 처리 미비 — 방어 코드 추가로 수정.
+
+향후 작업(우선순위)
+1. ALV Edit의 서버측 저장/검증 연동(완료 후 에러 메시지 매핑 UI 추가).
+2. 모든 편집 시나리오에 대한 회귀 테스트 작성 및 자동화 확장.
+3. 성능 개선: 대량 데이터 시나리오에서 가상스크롤/서버 페이징 적용 검토.
+4. 사용자 피드백 반영 후 UX 미세조정(검색 응답속도, 오류 메시지 가독성 등).
+
+요청/도움 필요 사항
+- 서버측 저장 API의 에러 응답 포맷(필드별 에러 매핑 형식) 문서가 필요합니다. 이를 받으면 에러 매핑 로직과 UI 표시를 정확히 구현하겠습니다.
+
+첨부(수정/참조 파일)
+- `webapp/view/Main.view.xml`
+- `webapp/controller/Main.controller.js`
+- `webapp/view/OrderDetail.view.xml`
+- `webapp/controller/OrderDetail.controller.js`
+- `webapp/model/models.js`
+- `localService/sourceService/*`
+- `test/unit/controller/Main.controller.js`
+
+끝.

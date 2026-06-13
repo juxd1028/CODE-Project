@@ -4,7 +4,7 @@
 >
     <SelectDialog
         id="materialVHDialog"
-        title="자재 선택"
+        title="{i18n>VALUEHELP_MATERIAL_TITLE}"
         search="onMaterialVHSearch"
         confirm="onMaterialVHConfirm"
         growing="true"

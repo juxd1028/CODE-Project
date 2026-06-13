@@ -4,7 +4,7 @@
 >
     <Dialog
         id="orderSearchDialog"
-        title="생산오더 조회"
+        title="{i18n>ORDER_SEARCH_TITLE}"
         contentWidth="700px"
         contentHeight="600px"
         draggable="true"
@@ -19,12 +19,12 @@
                 <!-- 조회 조건 -->
                 <Label
                     id="osLblAufnr"
-                    text="생산오더번호"
+                    text="{i18n>LABEL_ORDER_NO}"
                 />
                 <Input
                     id="osInpAufnr"
                     value="{osearch>/aufnr}"
-                    placeholder="오더번호"
+                    placeholder="{i18n>PLACEHOLDER_ORDER_NO}"
                     width="100%"
                     submit="onOrderSearchGo"
                     showValueHelp="true"
@@ -32,13 +32,13 @@
                 />
                 <Label
                     id="osLblMatnr"
-                    text="자재코드"
+                    text="{i18n>LABEL_MATERIAL_CODE}"
                     class="sapUiSmallMarginTop"
                 />
                 <Input
                     id="osInpMatnr"
                     value="{osearch>/matnr}"
-                    placeholder="자재코드"
+                    placeholder="{i18n>PLACEHOLDER_MATERIAL_CODE}"
                     width="100%"
                     submit="onOrderSearchGo"
                     showValueHelp="true"
@@ -46,13 +46,13 @@
                 />
                 <Label
                     id="osLblVbeln"
-                    text="요청원천번호"
+                    text="{i18n>LABEL_SOURCE_NO}"
                     class="sapUiSmallMarginTop"
                 />
                 <Input
                     id="osInpVbeln"
                     value="{osearch>/vbeln}"
-                    placeholder="요청원천번호"
+                    placeholder="{i18n>PLACEHOLDER_SOURCE_NO}"
                     width="100%"
                     submit="onOrderSearchGo"
                     showValueHelp="true"
@@ -60,7 +60,7 @@
                 />
                 <Label
                     id="osLblStatu"
-                    text="생산상태"
+                    text="{i18n>LABEL_PROD_STATUS}"
                     class="sapUiSmallMarginTop"
                 />
                 <Select
@@ -68,16 +68,36 @@
                     selectedKey="{osearch>/statu}"
                     width="100%"
                 >
-                    <core:Item id="osStatAll" key="" text="전체" />
-                    <core:Item id="osStatSchd" key="SCHD" text="계획" />
-                    <core:Item id="osStatRel" key="REL" text="릴리즈" />
-                    <core:Item id="osStatRun" key="RUN" text="진행중" />
-                    <core:Item id="osStatDone" key="DONE" text="완료" />
+                    <core:Item
+                        id="osStatAll"
+                        key=""
+                        text="{i18n>LABEL_ALL}"
+                    />
+                    <core:Item
+                        id="osStatSchd"
+                        key="SCHD"
+                        text="{i18n>STATUS_PLAN}"
+                    />
+                    <core:Item
+                        id="osStatRel"
+                        key="REL"
+                        text="{i18n>STATUS_RELEASE}"
+                    />
+                    <core:Item
+                        id="osStatRun"
+                        key="RUN"
+                        text="{i18n>STATUS_RUNNING}"
+                    />
+                    <core:Item
+                        id="osStatDone"
+                        key="DONE"
+                        text="{i18n>STATUS_DONE}"
+                    />
                 </Select>
 
                 <Button
                     id="osBtnGo"
-                    text="조회"
+                    text="{i18n>BUTTON_SEARCH}"
                     type="Emphasized"
                     icon="sap-icon://search"
                     press="onOrderSearchGo"
@@ -96,24 +116,39 @@
                         <OverflowToolbar id="osResToolbar">
                             <Title
                                 id="osResTitle"
-                                text="{= '조회 결과 ' + ${osearch>/results}.length + '건' }"
+                                text="{= ${i18n>RESULT_HEADER} + ' ' + ${osearch>/results}.length + ' ' + ${i18n>UNIT_PIECES} }"
                                 level="H5"
                             />
                         </OverflowToolbar>
                     </headerToolbar>
                     <columns>
                         <Column id="osColAufnr">
-                            <header><Text id="osHAufnr" text="오더번호" /></header>
+                            <header>
+                                <Text
+                                    id="osHAufnr"
+                                    text="{i18n>COL_ORDER_NO}"
+                                />
+                            </header>
                         </Column>
                         <Column id="osColMat">
-                            <header><Text id="osHMat" text="자재" /></header>
+                            <header>
+                                <Text
+                                    id="osHMat"
+                                    text="{i18n>COL_MATERIAL}"
+                                />
+                            </header>
                         </Column>
                         <Column
                             id="osColVbeln"
                             minScreenWidth="Tablet"
                             demandPopin="true"
                         >
-                            <header><Text id="osHVbeln" text="요청원천" /></header>
+                            <header>
+                                <Text
+                                    id="osHVbeln"
+                                    text="{i18n>COL_SOURCE}"
+                                />
+                            </header>
                         </Column>
                         <Column
                             id="osColQty"
@@ -121,14 +156,24 @@
                             minScreenWidth="Tablet"
                             demandPopin="true"
                         >
-                            <header><Text id="osHQty" text="수량" /></header>
+                            <header>
+                                <Text
+                                    id="osHQty"
+                                    text="{i18n>COL_QTY}"
+                                />
+                            </header>
                         </Column>
                         <Column
                             id="osColStatu"
                             hAlign="Center"
                             width="6rem"
                         >
-                            <header><Text id="osHStatu" text="상태" /></header>
+                            <header>
+                                <Text
+                                    id="osHStatu"
+                                    text="{i18n>COL_STATUS}"
+                                />
+                            </header>
                         </Column>
                     </columns>
                     <items>
@@ -147,7 +192,10 @@
                                     title="{osearch>matnr}"
                                     text="{osearch>maktx}"
                                 />
-                                <Text id="osCellVbeln" text="{osearch>vbeln}" />
+                                <Text
+                                    id="osCellVbeln"
+                                    text="{osearch>vbeln}"
+                                />
                                 <ObjectNumber
                                     id="osCellQty"
                                     number="{osearch>psmng}"
@@ -168,7 +216,7 @@
         <buttons>
             <Button
                 id="osBtnClose"
-                text="닫기"
+                text="{i18n>BUTTON_CLOSE}"
                 press="onOrderSearchClose"
             />
         </buttons>

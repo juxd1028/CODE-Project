@@ -7,7 +7,7 @@
 .wcCard {
   flex: 1 1 0; /* 5개를 한 줄에 균등 분배 (스크롤 없이 화면에 꽉) */
   min-width: 0;
-  max-width: 22rem;
+  max-width: 18rem;
   margin: 0.3rem;
   border: 1px solid #e5e5e5;
   border-radius: 0.5rem;
@@ -23,6 +23,7 @@
   padding: 0.7rem 1.2rem !important;
   border: none !important;
 }
+
 
 /* 카드 영역이 폰 폭(<=600px)일 때만 카드 내용 비례 축소 → 5개 한 줄에 작게 */
 @container (max-width: 600px) {
@@ -62,7 +63,6 @@
   font-size: 1rem;
   font-weight: bold;
 }
-
 
 /* 한글 글자 단위 줄바꿈 방지 → 단어 단위로 (좁은 칸에서 세로로 깨지는 것 방지) */
 .sapMText,

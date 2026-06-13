@@ -4,7 +4,7 @@
 >
     <Dialog
         id="approvalDialog"
-        title="오더 생성"
+        title="{i18n>APPROVAL_DIALOG_TITLE}"
         contentWidth="460px"
         stretch="{device>/system/phone}"
     >
@@ -16,7 +16,7 @@
                 <!-- 오더 종류 -->
                 <Label
                     id="lblAutyp"
-                    text="오더 종류"
+                    text="{i18n>APPROVAL_TYPE_LABEL}"
                     required="true"
                 />
                 <Select
@@ -28,24 +28,24 @@
                     <core:Item
                         id="itemAutypMs"
                         key="MS"
-                        text="생산"
+                        text="{i18n>KPI_PROD}"
                     />
                     <core:Item
                         id="itemAutypUr"
                         key="UR"
-                        text="긴급"
+                        text="{i18n>KPI_URGENT}"
                     />
                     <core:Item
                         id="itemAutypRp"
                         key="RP"
-                        text="수리"
+                        text="{i18n>KPI_REPAIR}"
                     />
                 </Select>
 
                 <!-- 자재 코드 -->
                 <Label
                     id="lblMatnr"
-                    text="자재 코드"
+                    text="{i18n>LABEL_MATERIAL_CODE}"
                     required="true"
                     class="sapUiSmallMarginTop"
                 />
@@ -55,7 +55,7 @@
                     items="{approval>/materialList}"
                     selectionChange="onApprovalMaterialChange"
                     width="100%"
-                    placeholder="자재를 선택하세요"
+                    placeholder="{i18n>PLACEHOLDER_SELECT_MATERIAL}"
                 >
                     <core:Item
                         id="itemMatnr"
@@ -67,7 +67,7 @@
                 <!-- 자재명 (자동 표시, DB 미저장) -->
                 <Label
                     id="lblMaktx"
-                    text="자재명"
+                    text="{i18n>LABEL_MATERIAL_NAME}"
                     class="sapUiSmallMarginTop"
                 />
                 <Text
@@ -78,7 +78,7 @@
                 <!-- 요청 원천 번호 -->
                 <Label
                     id="lblVbeln"
-                    text="요청 원천 번호"
+                    text="{i18n>LABEL_SOURCE_NO}"
                     class="sapUiSmallMarginTop"
                 />
                 <Input
@@ -86,7 +86,7 @@
                     value="{approval>/vbeln}"
                     maxLength="10"
                     width="100%"
-                    placeholder="요청 원천 번호 (선택)"
+                    placeholder="{i18n>PLACEHOLDER_SOURCE_NO_OPTIONAL}"
                     showValueHelp="true"
                     valueHelpRequest="onVbelnValueHelp"
                 />
@@ -94,7 +94,7 @@
                 <!-- 아이템 번호 -->
                 <Label
                     id="lblPosnr"
-                    text="아이템 번호"
+                    text="{i18n>LABEL_ITEM_NO}"
                     class="sapUiSmallMarginTop"
                 />
                 <Input
@@ -102,7 +102,7 @@
                     value="{approval>/posnr}"
                     maxLength="4"
                     width="100%"
-                    placeholder="아이템 번호 (선택)"
+                    placeholder="{i18n>PLACEHOLDER_ITEM_NO_OPTIONAL}"
                     showValueHelp="true"
                     valueHelpRequest="onPosnrValueHelp"
                 />
@@ -110,7 +110,7 @@
                 <!-- 생산 계획 기간 -->
                 <Label
                     id="lblPeriod"
-                    text="생산 계획 기간"
+                    text="{i18n>LABEL_PLAN_PERIOD}"
                     required="true"
                     class="sapUiSmallMarginTop"
                 />
@@ -121,13 +121,13 @@
                     displayFormat="yyyy-MM-dd"
                     valueFormat="yyyy-MM-dd"
                     width="100%"
-                    placeholder="시작일 ~ 종료일"
+                    placeholder="{i18n>PLACEHOLDER_DATE_RANGE}"
                 />
 
                 <!-- 오더 수량 -->
                 <Label
                     id="lblMenge"
-                    text="오더 수량"
+                    text="{i18n>LABEL_ORDER_QTY}"
                     required="true"
                     class="sapUiSmallMarginTop"
                 />
@@ -153,13 +153,13 @@
         <buttons>
             <Button
                 id="btnApprovalSubmit"
-                text="생성"
+                text="{i18n>BUTTON_CREATE}"
                 type="Emphasized"
                 press="onApprovalSubmit"
             />
             <Button
                 id="btnApprovalCancel"
-                text="취소"
+                text="{i18n>BUTTON_CANCEL}"
                 press="onApprovalCancel"
             />
         </buttons>

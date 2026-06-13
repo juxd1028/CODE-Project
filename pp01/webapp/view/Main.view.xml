@@ -30,7 +30,6 @@
                         alignItems="Center"
                         width="100%"
                     >
-                        <!-- 헤더 -->
                         <Title
                             text="{view>arbpl}"
                             level="H4"
@@ -40,7 +39,6 @@
                             class="sapUiTinyText sapUiTinyMarginBottom"
                         />
 
-                        <!-- 큰 숫자 -->
                         <HBox
                             alignItems="Baseline"
                             class="sapUiSmallMarginTop sapUiSmallMarginBottom"
@@ -51,18 +49,16 @@
                                 titleStyle="H1"
                             />
                             <Text
-                                text=" / {view>capac}"
+                                text="{= ' / ' + ${view>capac}}"
                                 class="sapUiSmallMarginBegin"
                             />
                         </HBox>
 
-                        <!-- footer 텍스트 -->
                         <Text
-                            text="계획 {view>schd} · 진행 {view>run}"
+                            text="{= ${i18n>STATUS_PLAN} + ' ' + ${view>schd} + ' · ' + ${i18n>STATUS_RUNNING} + ' ' + ${view>run} }"
                             class="sapUiTinyText sapUiSmallMarginBottom"
                         />
 
-                        <!-- ProgressIndicator -->
                         <ProgressIndicator
                             percentValue="{view>loadPct}"
                             displayValue="{view>loadPct}%"
@@ -96,25 +92,25 @@
                     <OverflowToolbar id="calendarHeaderToolbar">
                         <Title
                             id="calendarTitle"
-                            text="작업장별 공정 일정"
+                            text="{i18n>CALENDAR_TITLE}"
                             level="H4"
                         />
                         <ToolbarSpacer id="calendarHeaderSpacer" />
                         <Button
                             id="refreshBtn"
-                            tooltip="새로고침"
+                            tooltip="{i18n>BUTTON_REFRESH}"
                             icon="sap-icon://refresh"
                             press="onRefresh"
                         />
                         <Button
                             id="orderSearchOpenBtn"
-                            text="조회"
+                            text="{i18n>BUTTON_SEARCH}"
                             icon="sap-icon://search"
                             press="onOpenOrderSearch"
                         />
                         <Button
                             id="approvalOpenBtn"
-                            text="오더 생성"
+                            text="{i18n>BUTTON_CREATE}"
                             type="Emphasized"
                             icon="sap-icon://add"
                             press="onOpenApprovalDialog"
@@ -128,7 +124,7 @@
                         class="sapUiSmallMarginBottom"
                     >
                         <Label
-                            text="작업장:"
+                            text="{i18n>LABEL_WORKCENTER}"
                             labelFor="arbplSelect"
                         />
                         <Select
@@ -146,7 +142,7 @@
 
                         <ToolbarSpacer />
 
-                        <Label text="상태:" />
+                        <Label text="{i18n>LABEL_STATUS}" />
                         <Select
                             id="statuSelect"
                             selectedKey="{view>/selectedStatu}"
@@ -154,19 +150,19 @@
                         >
                             <core:Item
                                 key="ALL"
-                                text="전체"
+                                text="{i18n>LABEL_ALL}"
                             />
                             <core:Item
                                 key="SCHD"
-                                text="계획"
+                                text="{i18n>STATUS_PLAN}"
                             />
                             <core:Item
                                 key="RUN"
-                                text="진행중"
+                                text="{i18n>STATUS_RUNNING}"
                             />
                             <core:Item
                                 key="DONE"
-                                text="완료"
+                                text="{i18n>STATUS_DONE}"
                             />
                         </Select>
                     </Toolbar>
@@ -183,7 +179,7 @@
                         <views>
                             <SinglePlanningCalendarMonthView
                                 key="MonthView"
-                                title="Month"
+                                title="{i18n>CALENDAR_MONTH_VIEW}"
                             />
                         </views>
 
@@ -224,12 +220,12 @@
                             <OverflowToolbar id="productionToolbar">
                                 <Title
                                     id="productionTitle"
-                                    text="현재 생산 중인 오더"
+                                    text="{i18n>PRODUCTION_TITLE}"
                                     level="H4"
                                 />
                                 <ObjectStatus
                                     id="productionCount"
-                                    text="{= ${view>/productionList}.length + '건' }"
+                                    text="{= ${view>/productionList}.length + ' ' + ${i18n>UNIT_PIECES} }"
                                     state="Warning"
                                     class="sapUiTinyMarginBegin"
                                 />
@@ -237,7 +233,7 @@
                                 <SearchField
                                     id="productionSearch"
                                     width="18rem"
-                                    placeholder="오더번호 / 자재 / 작업장 검색"
+                                    placeholder="{i18n>PLACEHOLDER_SEARCH}"
                                     search="onProductionSearch"
                                     liveChange="onProductionSearch"
                                 />
@@ -262,7 +258,7 @@
                                         >
                                             <Label
                                                 id="prodL1a"
-                                                text="오더번호"
+                                                text="{i18n>COL_ORDER_NO}"
                                             />
                                             <ObjectIdentifier
                                                 id="prodV1a"
@@ -275,7 +271,7 @@
                                         >
                                             <Label
                                                 id="prodL1b"
-                                                text="라우팅번호"
+                                                text="{i18n>COL_ROUTING_NO}"
                                             />
                                             <Text
                                                 id="prodV1b"
@@ -288,7 +284,7 @@
                                         >
                                             <Label
                                                 id="prodL1c"
-                                                text="자재"
+                                                text="{i18n>COL_MATERIAL}"
                                             />
                                             <ObjectIdentifier
                                                 id="prodV1c"
@@ -309,7 +305,7 @@
                                         >
                                             <Label
                                                 id="prodL2a"
-                                                text="수량"
+                                                text="{i18n>COL_QTY}"
                                             />
                                             <ObjectNumber
                                                 id="prodV2a"
@@ -324,7 +320,7 @@
                                         >
                                             <Label
                                                 id="prodL2b"
-                                                text="상태"
+                                                text="{i18n>COL_STATUS}"
                                             />
                                             <ObjectStatus
                                                 id="prodV2b"
@@ -338,7 +334,7 @@
                                         >
                                             <Label
                                                 id="prodL2c"
-                                                text="생산시작일"
+                                                text="{i18n>LABEL_START_DATE}"
                                             />
                                             <Text
                                                 id="prodV2c"

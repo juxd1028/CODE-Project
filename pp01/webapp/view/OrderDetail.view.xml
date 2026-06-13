@@ -5,43 +5,47 @@
     displayBlock="true"
 >
     <Page
-        title="오더 상세"
+        title="{i18n>ORDER_DETAIL_TITLE}"
         showNavButton="true"
         navButtonPress="onNavBack"
     >
         <content>
             <ObjectHeader
-                title="오더 {view>/aufnr}"
+                title="{= ${i18n>ORDER_LABEL} + ' ' + ${view>/aufnr}}"
                 number="{view>/vornr}"
-                numberUnit="공정"
+                numberUnit="{i18n>UNIT_OPERATION}"
                 responsive="true"
             >
                 <attributes>
                     <ObjectAttribute
-                        title="라우팅"
+                        title="{i18n>LABEL_ROUTING}"
                         text="{view>/plnnr}"
                     />
                 </attributes>
             </ObjectHeader>
 
             <Panel
-                headerText="오더별 실적 조회"
+                headerText="{i18n>PANEL_ORDER_PERF}"
                 expandable="false"
                 class="sapUiResponsiveMargin"
             >
                 <content>
                     <MessageStrip
-                        text="이 페이지는 다음 단계에서 구현될 예정입니다."
+                        text="{i18n>MSG_PAGE_TBD}"
                         type="Information"
                         showIcon="true"
                         class="sapUiSmallMarginBottom"
                     />
                     <Text
-                        text="오더번호: {view>/aufnr}"
+                        text="{= ${i18n>LABEL_ORDER_NO} + ' ' + ${view>/aufnr}}"
                         class="sapUiSmallMarginTop"
                     />
-                    <Text text="라우팅번호: {view>/plnnr}" />
-                    <Text text="공정순번: {view>/vornr}" />
+                    <Text
+                        text="{= ${i18n>LABEL_ROUTING_NO} + ' ' + ${view>/plnnr}}"
+                    />
+                    <Text
+                        text="{= ${i18n>LABEL_OPERATION_SEQ} + ' ' + ${view>/vornr}}"
+                    />
                 </content>
             </Panel>
         </content>

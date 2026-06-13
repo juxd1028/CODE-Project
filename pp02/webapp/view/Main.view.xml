@@ -25,12 +25,16 @@
                     <Input
                         value="{search>/orderNo}"
                         placeholder="예: PL0000001"
+                        showValueHelp="true"
+                        valueHelpRequest=".onOrderNoValueHelp"
                     />
 
                     <Label text="자재코드" />
                     <Input
                         value="{search>/materialCode}"
                         placeholder="예: RM-BOLTS-001"
+                        showValueHelp="true"
+                        valueHelpRequest=".onMaterialCodeValueHelp"
                     />
 
                     <Label text="날짜범위" />
@@ -43,6 +47,7 @@
                     <Label text="" />
                     <Button
                         text="조회"
+                        width="8rem"
                         type="Emphasized"
                         icon="sap-icon://search"
                         press=".onSearch"
@@ -129,13 +134,13 @@
                                                             text="{result>Lgobe}"
                                                         />
                                                         <Text
-                                                            text="{result>Bemng}"
+                                                            text="{result>BemngText}"
                                                         />
                                                         <Text
-                                                            text="{= ${result>LabstText} ? ${result>LabstText} : ${result>Labst} }"
+                                                            text="{result>LabstText}"
                                                         />
                                                         <ObjectStatus
-                                                            text="{= ${result>statusText} ? ${result>statusText} : ${result>Status} }"
+                                                            text="{result>statusText}"
                                                             state="{result>statusState}"
                                                         />
                                                     </cells>

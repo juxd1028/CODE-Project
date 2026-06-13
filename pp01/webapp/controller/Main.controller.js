@@ -67,8 +67,7 @@ sap.ui.define(
             // 조기 마감 플래그: 완료(DONE)인데 그 날 실적(Day_yield)이 0
             aResults.forEach(function (op) {
               if (op.Day_yield == null) op.Day_yield = "0";
-              op._earlyDone =
-                op.Statu === "DONE" && !parseFloat(op.Day_yield);
+              op._earlyDone = op.Statu === "DONE" && !parseFloat(op.Day_yield);
             });
             oViewModel.setProperty("/rawOperations", aResults);
             that._buildWorkCenterList(aResults);
@@ -1021,11 +1020,17 @@ sap.ui.define(
         // 실연동: OData $filter
         var aFilters = [];
         if (oCond.aufnr)
-          aFilters.push(new Filter("aufnr", FilterOperator.Contains, oCond.aufnr));
+          aFilters.push(
+            new Filter("aufnr", FilterOperator.Contains, oCond.aufnr),
+          );
         if (oCond.matnr)
-          aFilters.push(new Filter("matnr", FilterOperator.Contains, oCond.matnr));
+          aFilters.push(
+            new Filter("matnr", FilterOperator.Contains, oCond.matnr),
+          );
         if (oCond.vbeln)
-          aFilters.push(new Filter("vbeln", FilterOperator.Contains, oCond.vbeln));
+          aFilters.push(
+            new Filter("vbeln", FilterOperator.Contains, oCond.vbeln),
+          );
         if (oCond.statu)
           aFilters.push(new Filter("statu", FilterOperator.EQ, oCond.statu));
 
@@ -1149,7 +1154,10 @@ sap.ui.define(
         if (oItem) {
           this.getView()
             .getModel("osearch")
-            .setProperty("/matnr", oItem.getBindingContext("matvh").getObject().matnr);
+            .setProperty(
+              "/matnr",
+              oItem.getBindingContext("matvh").getObject().matnr,
+            );
         }
       },
 
@@ -1157,7 +1165,10 @@ sap.ui.define(
       onSearchAufnrVH: function () {
         var oView = this.getView();
         // 매번 최신 전체 오더로 갱신
-        oView.setModel(new JSONModel({ items: this._getAllOrders() }), "ordervh");
+        oView.setModel(
+          new JSONModel({ items: this._getAllOrders() }),
+          "ordervh",
+        );
         if (!this._oOrderVHDialog) {
           this._oOrderVHDialog = sap.ui.xmlfragment(
             "code.t4.ui5.pp01.view.OrderValueHelp",
@@ -1191,7 +1202,10 @@ sap.ui.define(
         if (oItem) {
           this.getView()
             .getModel("osearch")
-            .setProperty("/aufnr", oItem.getBindingContext("ordervh").getObject().aufnr);
+            .setProperty(
+              "/aufnr",
+              oItem.getBindingContext("ordervh").getObject().aufnr,
+            );
         }
       },
 

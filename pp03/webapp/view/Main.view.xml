@@ -1,0 +1,332 @@
+<mvc:View
+    controllerName="code.t4.ui5.pp03.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:micro="sap.suite.ui.microchart"
+    height="100%"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+        busy="{ui>/busy}"
+        busyIndicatorDelay="0"
+    >
+        <headerContent>
+            <SearchField
+                id="orderSearch"
+                width="16rem"
+                placeholder="{i18n>orderPlaceholder}"
+                value="{ui>/aufnr}"
+                search=".onSearch"
+            />
+        </headerContent>
+
+        <content>
+            <VBox
+                class="ppDashboard"
+                width="100%"
+            >
+                <!-- 빈 상태 -->
+                <Text
+                    class="ppEmpty"
+                    text="{i18n>noData}"
+                    visible="{= ${ui>/loaded} &amp;&amp; !${ui>/hasData} }"
+                />
+
+                <VBox
+                    width="100%"
+                    visible="{ui>/hasData}"
+                >
+                    <!-- ===== 섹션 A : Key Figures ===== -->
+                    <l:Grid
+                        defaultSpan="L3 M6 S6"
+                        hSpacing="0.5"
+                        vSpacing="0.5"
+                        containerQuery="true"
+                    >
+                        <Title
+                            class="ppSectionTitle"
+                            level="H3"
+                            text="{ parts: [ 'i18n>keyFiguresTitle', 'ui>/year' ], formatter: '.formatTitle' }"
+                        >
+                            <layoutData>
+                                <l:GridData span="L12 M12 S12" />
+                            </layoutData>
+                        </Title>
+                        <!-- 1. 오더 완료율 -->
+                        <VBox class="ppCard ppKpiCard">
+                            <Text
+                                class="ppCardTitle"
+                                text="{i18n>kpiCompletion}"
+                            />
+                            <FlexBox
+                                class="ppChartBox"
+                                alignItems="Center"
+                                justifyContent="Center"
+                            >
+                                <VBox class="ppRadialBox">
+                                    <micro:RadialMicroChart
+                                        size="Responsive"
+                                        percentage="{ui>/kpi/completion}"
+                                        valueColor="Good"
+                                    />
+                                </VBox>
+                            </FlexBox>
+                            <Text
+                                class="ppCaption"
+                                text="{ui>/kpi/completionCaption}"
+                            />
+                        </VBox>
+
+                        <!-- 2. 워크센터 부하 (h) -->
+                        <VBox class="ppCard ppKpiCard">
+                            <Text
+                                class="ppCardTitle"
+                                text="{i18n>kpiWcLoad}"
+                            />
+                            <HBox
+                                class="ppChartBox ppBarChart"
+                                alignItems="End"
+                                justifyContent="SpaceAround"
+                                items="{ui>/wcLoad}"
+                            >
+                                <VBox
+                                    class="ppBarCol"
+                                    alignItems="Center"
+                                    justifyContent="End"
+                                >
+                                    <Text
+                                        class="ppBarVal"
+                                        text="{ui>display}"
+                                    />
+                                    <VBox
+                                        class="ppBarTrack"
+                                        justifyContent="End"
+                                    >
+                                        <VBox
+                                            class="ppBarBlue"
+                                            height="{ui>barPct}"
+                                            justifyContent="End"
+                                        >
+                                            <VBox
+                                                class="ppBarGreen"
+                                                height="{ui>donePct}"
+                                            />
+                                        </VBox>
+                                    </VBox>
+                                    <Text
+                                        class="ppBarWc"
+                                        text="{ui>wc}"
+                                    />
+                                </VBox>
+                            </HBox>
+                            <Text
+                                class="ppCaption"
+                                text="{ui>/kpi/wcCaption}"
+                            />
+                        </VBox>
+
+                        <!-- 3. 리드타임 (예정 vs 실제) -->
+                        <VBox class="ppCard ppKpiCard">
+                            <Text
+                                class="ppCardTitle"
+                                text="{i18n>kpiLeadTime}"
+                            />
+                            <FlexBox
+                                class="ppChartBox"
+                                renderType="Bare"
+                                alignItems="Stretch"
+                            >
+                                <micro:ComparisonMicroChart
+                                    class="ppMicroChart"
+                                    size="Responsive"
+                                    width="100%"
+                                    data="{ui>/lead}"
+                                >
+                                    <micro:data>
+                                        <micro:ComparisonMicroChartData
+                                            title="{ui>title}"
+                                            value="{ui>value}"
+                                            color="{ui>color}"
+                                            displayValue="{ui>display}"
+                                        />
+                                    </micro:data>
+                                </micro:ComparisonMicroChart>
+                            </FlexBox>
+                            <Text
+                                class="ppCaption"
+                                text="{ui>/kpi/leadCaption}"
+                            />
+                        </VBox>
+
+                        <!-- 4. 월별 완료량 -->
+                        <VBox class="ppCard ppKpiCard">
+                            <Text
+                                class="ppCardTitle"
+                                text="{i18n>kpiMonthly}"
+                            />
+                            <FlexBox
+                                class="ppChartBox"
+                                renderType="Bare"
+                                alignItems="Stretch"
+                            >
+                                <micro:LineMicroChart
+                                    class="ppMicroChart"
+                                    size="Responsive"
+                                    width="100%"
+                                    color="#df8e3d"
+                                    leftTopLabel="{ui>/kpi/monthFirst}"
+                                    rightTopLabel="{ui>/kpi/monthLast}"
+                                    points="{ui>/monthly}"
+                                >
+                                    <micro:points>
+                                        <micro:LineMicroChartPoint
+                                            x="{ui>x}"
+                                            y="{ui>value}"
+                                        />
+                                    </micro:points>
+                                </micro:LineMicroChart>
+                            </FlexBox>
+                            <Text
+                                class="ppCaption"
+                                text="{ui>/kpi/monthCaption}"
+                            />
+                        </VBox>
+                    </l:Grid>
+
+                    <!-- ===== 섹션 B : 공정 흐름 ===== -->
+                    <l:Grid
+                        defaultSpan="L12 M12 S12"
+                        hSpacing="0.5"
+                        vSpacing="0.5"
+                        containerQuery="true"
+                    >
+                        <Title
+                            class="ppSectionTitle"
+                            level="H3"
+                            text="{i18n>flowTitle}"
+                        >
+                            <layoutData>
+                                <l:GridData span="L12 M12 S12" />
+                            </layoutData>
+                        </Title>
+                        <VBox class="ppCard ppFlowCard">
+                            <HBox
+                                class="ppFlow"
+                                alignItems="Center"
+                                justifyContent="Center"
+                                wrap="Wrap"
+                                items="{ui>/flowNodes}"
+                            >
+                                <VBox
+                                    class="ppFlowNode ppFlowItem"
+                                    alignItems="Center"
+                                    justifyContent="Center"
+                                >
+                                    <core:Icon
+                                        class="ppFlowBadge"
+                                        src="{ui>icon}"
+                                        color="{ui>iconColor}"
+                                        size="1.375rem"
+                                        width="3.25rem"
+                                        height="3.25rem"
+                                    />
+                                    <Text
+                                        class="ppFlowWc"
+                                        text="{ui>title}"
+                                    />
+                                    <Text
+                                        class="ppFlowCap"
+                                        text="{ui>caption}"
+                                    />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </l:Grid>
+
+                    <!-- ===== 섹션 C : 공정 상태 분포 ===== -->
+                    <l:Grid
+                        defaultSpan="L4 M4 S6"
+                        hSpacing="0.5"
+                        vSpacing="0.5"
+                        containerQuery="true"
+                    >
+                        <Title
+                            class="ppSectionTitle"
+                            level="H3"
+                            text="{i18n>statusTitle}"
+                        >
+                            <layoutData>
+                                <l:GridData span="L12 M12 S12" />
+                            </layoutData>
+                        </Title>
+                        <VBox class="ppCard ppStatusCard ppStatusSchd">
+                            <HBox
+                                alignItems="Center"
+                                class="ppStatusHead"
+                            >
+                                <core:Icon
+                                    src="sap-icon://pending"
+                                    color="#6a6d70"
+                                    class="ppStatusIcon"
+                                />
+                                <Text
+                                    class="ppStatusLabel"
+                                    text="{i18n>statusSchd}"
+                                />
+                            </HBox>
+                            <Text
+                                class="ppStatusValue"
+                                text="{ui>/status/schd}"
+                            />
+                        </VBox>
+
+                        <VBox class="ppCard ppStatusCard ppStatusRun">
+                            <HBox
+                                alignItems="Center"
+                                class="ppStatusHead"
+                            >
+                                <core:Icon
+                                    src="sap-icon://media-play"
+                                    color="#0a6ed1"
+                                    class="ppStatusIcon"
+                                />
+                                <Text
+                                    class="ppStatusLabel"
+                                    text="{i18n>statusRun}"
+                                />
+                            </HBox>
+                            <Text
+                                class="ppStatusValue"
+                                text="{ui>/status/run}"
+                            />
+                        </VBox>
+
+                        <VBox class="ppCard ppStatusCard ppStatusDone">
+                            <HBox
+                                alignItems="Center"
+                                class="ppStatusHead"
+                            >
+                                <core:Icon
+                                    src="sap-icon://sys-enter-2"
+                                    color="#30914c"
+                                    class="ppStatusIcon"
+                                />
+                                <Text
+                                    class="ppStatusLabel"
+                                    text="{i18n>statusDone}"
+                                />
+                            </HBox>
+                            <Text
+                                class="ppStatusValue"
+                                text="{ui>/status/done}"
+                            />
+                        </VBox>
+                    </l:Grid>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

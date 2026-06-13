@@ -4,7 +4,7 @@
 >
     <SelectDialog
         id="sourceValueHelpDialog"
-        title="요청 원천 번호 / 아이템 선택"
+        title="{i18n>VALUEHELP_SOURCE_TITLE}"
         search="onSourceVHSearch"
         confirm="onSourceVHConfirm"
         cancel="onSourceVHCancel"

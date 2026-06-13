@@ -1,0 +1,223 @@
+/* ===== [PP] 생산 실적 현황 대시보드 ===== */
+
+.ppDashboard {
+    background-color: #f5f6f7;
+    padding: 1rem 1.5rem 2rem 1.5rem;
+}
+
+/* 섹션 헤더 */
+.ppSectionTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #354a5f;
+    margin: 1.25rem 0 0.75rem 0;
+}
+
+/* 카드 공통 */
+.ppCard {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.25rem;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.ppKpiCard {
+    min-height: 12rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.ppCardTitle {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #6a6d70;
+    margin-bottom: 0.5rem;
+}
+
+.ppCaption {
+    font-size: 0.75rem;
+    color: #6a6d70;
+    margin-top: 0.5rem;
+}
+
+.ppChartBox {
+    flex: 1 1 auto;
+    height: 7rem;
+    width: 100%;
+    overflow: hidden;
+}
+/* 마이크로 차트가 차트 영역(7rem)을 꽉 채우도록 */
+.ppMicroChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ===== 워크센터 부하 커스텀 누적 막대 ===== */
+.ppBarChart {
+    width: 100%;
+    height: 100%;
+    padding-top: 0.25rem;
+}
+.ppBarCol {
+    height: 100%;
+    flex: 1 1 0;
+}
+.ppBarVal {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #354a5f;
+    margin-bottom: 0.125rem;
+}
+.ppBarTrack {
+    height: 4.5rem;
+    width: 1.75rem;
+}
+.ppBarBlue {
+    width: 100%;
+    background-color: #5b9bd5;        /* 파랑 = 생산(시작) */
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    min-height: 2px;
+}
+.ppBarGreen {
+    width: 100%;
+    background-color: #30914c;        /* 초록 = 완료 진척 */
+}
+.ppBarWc {
+    font-size: 0.625rem;
+    color: #6a6d70;
+    margin-top: 0.25rem;
+    white-space: nowrap;
+}
+
+/* 완료율 도넛 - 카드 안에서 크게, 중앙 정렬 */
+.ppRadialBox {
+    width: 7rem;
+    height: 7rem;
+}
+.ppRadialBox .sapSuiteRMCSvg,
+.ppRadialBox > div {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 상태 분포 카드 */
+.ppStatusCard {
+    min-height: 5.5rem;
+}
+/* 상태별 왼쪽 컬러 바 */
+.ppStatusDone { border-left: 5px solid #30914c; }
+.ppStatusRun  { border-left: 5px solid #0a6ed1; }
+.ppStatusSchd { border-left: 5px solid #6a6d70; }
+
+.ppStatusValue {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #354a5f;
+    line-height: 1.1;
+}
+
+.ppStatusHead {
+    margin-bottom: 0.25rem;
+}
+.ppStatusIcon {
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+}
+.ppStatusLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #354a5f;
+}
+
+/* 공정 흐름 */
+.ppFlowCard {
+    min-height: 8rem;
+}
+.ppFlow {
+    width: 100%;
+    padding: 0.5rem 0.5rem;
+}
+.ppFlowItem {
+    margin: 0 1.25rem;
+}
+.ppFlowNode {
+    min-width: 6rem;
+    max-width: 9rem;
+    padding: 0 0.25rem;
+}
+/* 링 = 아이콘 자체에 테두리. 테두리 색은 currentColor(=Icon의 color 바인딩)를 따라감 */
+.ppFlowBadge.sapUiIcon {
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.ppFlowWc {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #354a5f;
+    margin-top: 0.5rem;
+    text-align: center;
+    white-space: normal;
+}
+.ppFlowCap {
+    font-size: 0.6875rem;
+    color: #6a6d70;
+    margin-top: 0.125rem;
+}
+
+/* 빈 상태 */
+.ppEmpty {
+    color: #6a6d70;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* ===== 모바일(폰)에서만 웹 비율과 비슷하게 — 웹/태블릿은 영향 없음 =====
+   폭만 좁아지므로 도넛·차트 높이는 그대로 두고(완료율 % 중앙정렬 유지),
+   막대 폭과 글자만 줄여 2열 카드 안에 들어가도록 한다. */
+@media (max-width: 599px) {
+    .ppDashboard {
+        padding: 0.5rem 0.625rem 1.5rem 0.625rem;
+    }
+    .ppSectionTitle {
+        font-size: 0.9375rem;
+        margin: 0.875rem 0 0.5rem 0;
+    }
+    .ppCard {
+        padding: 0.75rem 0.75rem;
+    }
+    .ppCardTitle {
+        font-size: 0.75rem;
+    }
+    .ppCaption {
+        font-size: 0.6875rem;
+    }
+    /* 워크센터 부하 막대 : 좁은 카드에 5개가 들어가도록 폭 축소 */
+    .ppBarTrack {
+        width: 1rem;
+    }
+    .ppBarVal {
+        font-size: 0.5625rem;
+        margin-bottom: 0.0625rem;
+    }
+    .ppBarWc {
+        font-size: 0.5rem;
+    }
+    /* 공정 흐름 노드 */
+    .ppFlowItem {
+        margin: 0 0.4rem 0.75rem 0.4rem;
+    }
+    .ppFlowNode {
+        min-width: 4.25rem;
+    }
+    /* 상태 분포 카드 */
+    .ppStatusValue {
+        font-size: 1.625rem;
+    }
+}

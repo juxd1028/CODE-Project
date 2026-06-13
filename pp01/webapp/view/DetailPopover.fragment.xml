@@ -4,7 +4,7 @@
     xmlns:l="sap.ui.layout"
 >
     <Dialog
-        title="{view>/selectedGroup/date} 워크센터 부하"
+        title="{= ${view>/selectedGroup/date} + ' ' + ${i18n>WORKCENTER_LOAD} }"
         contentWidth="1100px"
         contentHeight="600px"
         draggable="true"
@@ -23,69 +23,69 @@
                     width="100%"
                     class="kpiCardRow"
                 >
-                <VBox class="kpiCard kpiCard--plan">
-                    <Text
-                        text="계획"
-                        class="kpiCard-label"
-                    />
-                    <Title
-                        text="{view>/selectedGroup/orderStats/plCnt}"
-                        level="H2"
-                        class="kpiCard-num"
-                    />
-                    <Text
-                        text="건"
-                        class="kpiCard-unit"
-                    />
-                </VBox>
+                    <VBox class="kpiCard kpiCard--plan">
+                        <Text
+                            text="{i18n>KPI_PLAN}"
+                            class="kpiCard-label"
+                        />
+                        <Title
+                            text="{view>/selectedGroup/orderStats/plCnt}"
+                            level="H2"
+                            class="kpiCard-num"
+                        />
+                        <Text
+                            text="{i18n>UNIT_PIECES}"
+                            class="kpiCard-unit"
+                        />
+                    </VBox>
 
-                <VBox class="kpiCard kpiCard--prod">
-                    <Text
-                        text="생산"
-                        class="kpiCard-label"
-                    />
-                    <Title
-                        text="{view>/selectedGroup/orderStats/msCnt}"
-                        level="H2"
-                        class="kpiCard-num"
-                    />
-                    <Text
-                        text="건"
-                        class="kpiCard-unit"
-                    />
-                </VBox>
+                    <VBox class="kpiCard kpiCard--prod">
+                        <Text
+                            text="{i18n>KPI_PROD}"
+                            class="kpiCard-label"
+                        />
+                        <Title
+                            text="{view>/selectedGroup/orderStats/msCnt}"
+                            level="H2"
+                            class="kpiCard-num"
+                        />
+                        <Text
+                            text="{i18n>UNIT_PIECES}"
+                            class="kpiCard-unit"
+                        />
+                    </VBox>
 
-                <VBox class="kpiCard kpiCard--repair">
-                    <Text
-                        text="수리"
-                        class="kpiCard-label"
-                    />
-                    <Title
-                        text="{view>/selectedGroup/orderStats/rpCnt}"
-                        level="H2"
-                        class="kpiCard-num"
-                    />
-                    <Text
-                        text="건"
-                        class="kpiCard-unit"
-                    />
-                </VBox>
+                    <VBox class="kpiCard kpiCard--repair">
+                        <Text
+                            text="{i18n>KPI_REPAIR}"
+                            class="kpiCard-label"
+                        />
+                        <Title
+                            text="{view>/selectedGroup/orderStats/rpCnt}"
+                            level="H2"
+                            class="kpiCard-num"
+                        />
+                        <Text
+                            text="{i18n>UNIT_PIECES}"
+                            class="kpiCard-unit"
+                        />
+                    </VBox>
 
-                <VBox class="kpiCard kpiCard--urgent">
-                    <Text
-                        text="긴급"
-                        class="kpiCard-label"
-                    />
-                    <Title
-                        text="{view>/selectedGroup/orderStats/urCnt}"
-                        level="H2"
-                        class="kpiCard-num"
-                    />
-                    <Text
-                        text="건"
-                        class="kpiCard-unit"
-                    />
-                </VBox>
+                    <VBox class="kpiCard kpiCard--urgent">
+                        <Text
+                            text="{i18n>KPI_URGENT}"
+                            class="kpiCard-label"
+                        />
+                        <Title
+                            text="{view>/selectedGroup/orderStats/urCnt}"
+                            level="H2"
+                            class="kpiCard-num"
+                        />
+                        <Text
+                            text="{i18n>UNIT_PIECES}"
+                            class="kpiCard-unit"
+                        />
+                    </VBox>
                 </HBox>
             </VBox>
 
@@ -108,41 +108,41 @@
                                 />
                                 <ToolbarSpacer />
                                 <ObjectStatus
-                                    text="계획"
+                                    text="{i18n>STATUS_PLAN}"
                                     state="Information"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <ObjectStatus
-                                    text="{view>schdCount}건"
+                                    text="{= ${view>schdCount} + ' ' + ${i18n>UNIT_PIECES}}"
                                     state="None"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <ObjectStatus
-                                    text="진행"
+                                    text="{i18n>STATUS_RUNNING}"
                                     state="Warning"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <ObjectStatus
-                                    text="{view>runCount}건"
+                                    text="{= ${view>runCount} + ' ' + ${i18n>UNIT_PIECES}}"
                                     state="None"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <ObjectStatus
-                                    text="완료"
+                                    text="{i18n>STATUS_DONE}"
                                     state="Success"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <ObjectStatus
-                                    text="{view>doneCount}건"
+                                    text="{= ${view>doneCount} + ' ' + ${i18n>UNIT_PIECES}}"
                                     state="None"
                                     class="sapUiTinyMarginEnd"
                                 />
                                 <Text
-                                    text="총"
+                                    text="{i18n>LABEL_TOTAL}"
                                     class="kpiTotalLabel"
                                 />
                                 <Text
-                                    text="{view>count}건"
+                                    text="{= ${view>count} + ' ' + ${i18n>UNIT_PIECES}}"
                                     class="kpiTotalLbl"
                                 />
                             </Toolbar>
@@ -156,7 +156,7 @@
                                 <columns>
                                     <Column width="110px">
                                         <header>
-                                            <Text text="오더번호" />
+                                            <Text text="{i18n>COL_ORDER_NO}" />
                                         </header>
                                     </Column>
                                     <Column
@@ -165,7 +165,7 @@
                                         demandPopin="true"
                                     >
                                         <header>
-                                            <Text text="공정" />
+                                            <Text text="{i18n>COL_OPERATION}" />
                                         </header>
                                     </Column>
                                     <Column
@@ -174,7 +174,9 @@
                                         demandPopin="true"
                                     >
                                         <header>
-                                            <Text text="공정명" />
+                                            <Text
+                                                text="{i18n>COL_OPERATION_NAME}"
+                                            />
                                         </header>
                                     </Column>
                                     <Column
@@ -184,12 +186,12 @@
                                         demandPopin="true"
                                     >
                                         <header>
-                                            <Text text="유형" />
+                                            <Text text="{i18n>COL_TYPE}" />
                                         </header>
                                     </Column>
                                     <Column>
                                         <header>
-                                            <Text text="자재" />
+                                            <Text text="{i18n>COL_MATERIAL}" />
                                         </header>
                                     </Column>
                                     <Column
@@ -197,7 +199,7 @@
                                         hAlign="End"
                                     >
                                         <header>
-                                            <Text text="수량" />
+                                            <Text text="{i18n>COL_QTY}" />
                                         </header>
                                     </Column>
                                     <Column
@@ -205,7 +207,7 @@
                                         hAlign="Center"
                                     >
                                         <header>
-                                            <Text text="상태" />
+                                            <Text text="{i18n>COL_STATUS}" />
                                         </header>
                                     </Column>
                                 </columns>
@@ -245,22 +247,22 @@
                                                     emphasized="true"
                                                 />
                                                 <Text
-                                                    text="총 수량 {view>order_qty} {view>Gmein}"
+                                                    text="{= ${i18n>TEXT_TOTAL_QTY} + ' ' + ${view>order_qty} + ' ' + ${view>Gmein}}"
                                                     class="sapUiTinyText"
                                                 />
                                             </VBox>
                                             <ObjectStatus
-                                                text="{= ${view>_earlyDone} ? '조기 마감' :
-                                                       ${view>Statu} === 'SCHD' ? '계획' :
-                                                       ${view>Statu} === 'RUN' ? '진행중' :
-                                                       ${view>Statu} === 'DONE' ? '완료' : ${view>Statu}
+                                                text="{= ${view>_earlyDone} ? ${i18n>MSG_EARLY_DONE} :
+                                                       ${view>Statu} === 'SCHD' ? ${i18n>STATUS_PLAN} :
+                                                       ${view>Statu} === 'RUN' ? ${i18n>STATUS_RUNNING} :
+                                                       ${view>Statu} === 'DONE' ? ${i18n>STATUS_DONE} : ${view>Statu}
                                                 }"
                                                 state="{= ${view>_earlyDone} ? 'Information' :
                                                          ${view>Statu} === 'DONE' ? 'Success' :
                                                          ${view>Statu} === 'RUN' ? 'Warning' :
                                                          ${view>Statu} === 'SCHD' ? 'None' : 'None'
                                                 }"
-                                                tooltip="{= ${view>_earlyDone} ? '계획보다 일찍 마감된 건입니다' : '' }"
+                                                tooltip="{= ${view>_earlyDone} ? ${i18n>TOOLTIP_EARLY_DONE} : '' }"
                                             />
                                         </cells>
                                     </ColumnListItem>
@@ -274,7 +276,7 @@
 
         <buttons>
             <Button
-                text="닫기"
+                text="{i18n>BUTTON_CLOSE}"
                 press="onCloseDetailPopover"
                 type="Emphasized"
             />
